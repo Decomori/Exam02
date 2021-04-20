@@ -1,58 +1,95 @@
 package com.company;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
+class Student{
+    char major, id, name, grade;
+    int score;
 
-        int inMoney=0, price, won_100, won_500, won_1000;
+
+    Student(char major, char id, char name, int score) {
+        this.major = major;
+        this.id = id;
+        this.name = name;
+        this.score = score;
+        this.grade = grade;
+
+    }
+}
+
+public class Main{
+    static int grade_A=0, grade_B=0, grade_C=0, grade_D=0, grade_F=0, score_sum=0;
+    static double average = 0;
+    private boolean retake = false;
+
+    public static void main(String[] args){
+        final int MAX = 5;
+
+        Student student[] = new Student[MAX];
 
         Scanner sc = new Scanner(System.in);
+        for(int i=0; i<student.length; i++){
+            System.out.println("전공, 학번, 이름, 점수를 입력하세요. : ");
+            student[i] = new Student(sc.next().charAt(0), sc.next().charAt(0), sc.next().charAt(0), sc.nextInt());
+            gradeCount(student[i]);
+            System.out.println(student[2]);
+        }
+        average = score_sum/5;
+        printTap();
+    }
 
-        try {
-            System.out.print("투입할 금액을 입력하세요."); //투입한 금액이 정수인지 확인
-            inMoney = sc.nextInt();
-        }
-        catch (InputMismatchException ime) {
-            //정수가 아닌 다른 것이 입력됐을 때 뜨는 오류 예외설정
-            new Scanner(System.in);
-            System.out.println("돈이 아닙니다. 돈을 넣어주세요.");
-            System.exit(0); //중단점 설정
-        }
 
-        try { //입력한 금액이 정수인지 확인
-            if (inMoney % 100 != 0) {
-                System.out.println("100원 단위로 다시 입력하세요.");
-                System.exit(0); //중단점 설정
-            } else {
-                System.out.print("제품 금액을 입력하세요.");
-                price = sc.nextInt();
+    static void gradeCount(Student student){
 
-                if (inMoney < price) { //금액 확인 문
-                    System.out.println("돈이 부족합니다.");
-                } else if (price % 100 != 0) {
-                    System.out.println("제품 금액을 100원 단위로 입력해주세요.");
-                } else if (inMoney <= 0) {
-                    System.out.println("돈이 입력되지 않았습니다.");
-                } else {
-                    inMoney -= price;
-                }
-                System.out.println("잔액 : " + inMoney);
-            }
+        score_sum += student.score;
+        if(student.score>=90) {
+            grade_A++;
         }
-        catch (InputMismatchException ime) {
-            //정수가 아닌 다른 것이 입력됐을 때 뜨는 오류 예외설정
-            new Scanner(System.in);
-            System.out.println("잘못된 금액입니다.");
-            System.exit(0); //중단점 설정
+        else if(80 <= student.score && 90 > student.score) {
+            grade_B++;
         }
-            won_1000 = inMoney / 1000;
-            inMoney %= 1000;
-            won_500 = inMoney / 500;
-            inMoney %= 500;
-            won_100 = inMoney / 100;
+        else if(70 <= student.score && 80 > student.score) {
+            grade_C++;
+        }
+        else if(60 <= student.score && 70 > student.score) {
+            grade_D++;
+        }
+        else{
+            grade_F++;
+        }
+    }
 
-            System.out.println("천원 : " + won_1000 + "\n오백원 : " + won_500 + "\n백원 : " + won_100);
-        }
+    static void printTap(){
+        //System.out.println("* 재수강 대상자는");
+
+
+
+        System.out.print("A("+grade_A+"명) |");
+        for(int i=0; i<grade_A; i++){
+            System.out.print("*");
+        } System.out.println("");
+
+        System.out.print("B("+grade_B+"명) |");
+        for(int i=0; i<grade_B; i++){
+            System.out.print("*");
+        } System.out.println("");
+
+        System.out.print("C("+grade_C+"명) |");
+        for(int i=0; i<grade_C; i++){
+            System.out.print("*");
+        } System.out.println("");
+
+        System.out.print("D("+grade_D+"명) |");
+        for(int i=0; i<grade_D; i++){
+            System.out.print("*");
+        } System.out.println("");
+
+        System.out.print("F("+grade_F+"명) |");
+        for(int i=0; i<grade_F; i++){
+            System.out.print("*");
+        } System.out.println("");
+        System.out.println("----------------------------");
+        System.out.println("총합 5명 (평균 "+average+"점)");
+    }
 }
+
